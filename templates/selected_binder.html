@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title%}- {{ binder_id }}{% endblock %}
+
+
+{% block main %}
+<div style="width: 90%; border: 15px; padding: 50px; margin: 20px; font-style: italic; color: #454545">
+    <h1>
+        Add a set and then track as you add cards
+    </h1>
+    <form method="POST">
+        <div class="form-row" style="width: 90%; border: 15px; padding: 20px; margin: 10px;">
+            <div class="form-group col-md-6">
+                <label for="inputName">Add set</label>
+                <input type="text" autocomplete="off" class="form-control" id="inputName" name="set" placeholder="Set">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="border: 15px; padding: 20px; margin: 40px;">Submit</button>
+    </form>
+</div>
+<div class="flex-container" style="display: flex; gap: 5x; flex-wrap: wrap; box-sizing: border-box;">
+    {% for binder in user_data %}
+        {% if binder.image_url == "static/cardBack.jpg" %}
+        <div class="flex-item">
+            <!--display the card image-->
+            <div>
+                <img src="{{ url_for('static', filename='cardBack.jpg') }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px;">
+            </div>
+            <div style="text-align: center;">
+                <p>Name: {{ binder['card_name']}}</p>
+                <p>Market Value: {{ binder['market_value']}}</p>
+                <p>Obtained: {{ binder['obtained']}}</p>
+                <!--omitting the action attribute from the form tag will default the value to the current page-->
+                <form method="POST">
+                    <input type="hidden" name="addCard"  value="{{ binder.binder_id }}">
+                    <button type="submit" class="btn btn-danger" onclick="return confirmDelete();">ADD CARD</button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="flex-item">
+            <!--display the card image-->
+            <div>
+                <img src="{{ binder.image_url }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px;">
+            </div>
+            <div style="text-align: center;">
+                <p>Name: {{ binder['card_name']}}</p>
+                <p>Market Value: {{ binder['market_value']}}</p>
+                <p>Obtained: {{ binder['obtained']}}</p>
+                <!--omitting the action attribute from the form tag will default the value to the current page-->
+                <form method="POST">
+                    <input type="hidden" name="addCard"  value="{{ binder.binder_id }}">
+                    <button type="submit" class="btn btn-danger" onclick="return confirmDelete();">ADD CARD</button>
+                </form>
+            </div>
+        </div>
+        {% endif%}
+    {% endfor %}
+</div>
+{% endblock %}

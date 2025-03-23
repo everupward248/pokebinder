@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block main%}
+
+<!--add padding to move the form away from the navbar-->
+<form action="/register" method="post">
+    <div class="form-row align-items-center">
+      <div class="col-auto">
+        <label class="sr-only" for="inlineFormInput">username</label>
+        <input autocomplete="off" type="text" class="form-control mb-2" id="inlineFormInput" name="username" placeholder="username">
+      </div>
+      <div class="col-auto">
+        <label class="sr-only" for="inlineFormInput">password</label>
+        <input autocomplete="off" type="password" class="form-control mb-2" id="inlineFormInput" name="password" placeholder="password">
+      </div>
+      <div class="col-auto">
+        <label class="sr-only" for="inlineFormInput">confirm password</label>
+        <input autocomplete="off" type="password" class="form-control mb-2" id="inlineFormInput" name="confirm" placeholder="confirm">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-2" for="inlineFormInputGroup" id="submit-button">Submit</button>
+      </div>
+    </div>
+  </form>
+
+
+{% endblock %}

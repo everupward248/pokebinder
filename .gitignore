@@ -1,0 +1,15 @@
+#environment and virtual environment
+.env
+.venv/
+
+#cached files
+__pycache__/
+flask_session/
+
+
+#development files
+misc/
+ouput/
+queries/
+csv_output.py
+img.py

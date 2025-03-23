@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Search{% endblock %}
+
+{% block main %}
+<div style="width: 90%; border: 15px; padding: 50px; margin: 20px; font-style: italic;">
+  <h1 style="text-align: left; color: #454545">
+      Please type a set from the Pokemon TCG into the search box. Please capitalize the first letter of each word and no trailing spaces. For best search, please copy & paste the set name to ensure the search is returned.
+      Certain sets(e.g. "HS—Triumphant") have special characters which must be included in the search
+  </h1>
+</div>
+
+<div style="width: 90%; border: 15px; padding: 50px; margin: 20px;;">
+  <form action="/search" method="post">
+      <div class="form-row align-items-center">
+        <div class="col-auto">
+          <label class="sr-only" for="inlineFormInput">Search</label>
+          <input autocomplete="off" type="text" class="form-control mb-2" id="inlineFormInput" name="search" placeholder="Search" type="text">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-2" for="inlineFormInputGroup" id="submit-button">Submit</button>
+        </div>
+      </div>
+    </form>
+</div>
+{% endblock %}

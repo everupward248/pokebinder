@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title%}{{set_name}}{% endblock %}
+
+
+{% block main %}
+    <p>There are {{ total }} cards in {{ set_name }}: </p>
+    <div style="display: flex; flex-wrap: wrap; gap: 5px; justify-content: center;">
+        {% for card in all_cards %}
+        <div style="text-align: center; margin-bottom: 20px; margin-left: 2px; margin-right: 2px; box-sizing: border-box; border-radius: 8px; padding: 5px;">
+            <img src="{{ card.images.small }}" alt="{{ card.name }}" style="max-width: 100%; border-radius: 8px;" class="pkmn-card" onclick="openModal(this.src)">
+            <p class="hide">Price: {{ prices[loop.index0] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+     <!-- Modal that will show the enlarged image -->
+     <div id="imageModal" onclick="closeModal()">
+         <span id="closeButton">&times;</span>
+         <img id="modalContent" src="" alt="Enlarged Image">
+     </div>
+ 
+     <!-- Link to the external JavaScript file -->
+     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,93 @@
+.navbar {
+    font-size: 1.5rem; /* Adjust font size */
+  }
+    
+    .navbar-nav .nav-link {
+    padding: 60px 120px; /* Adjust padding */
+  }
+
+.pkmn-card {
+   width: 225px;
+   height: 300;
+   margin: 15px;
+}
+
+.hide {
+  display:none;
+}
+
+.pkmn-card:hover +.hide {
+  display: block;
+}
+
+
+/*tooltip for hover effect*/
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+/* Clicking on image to take center of screen */
+/* Style for the modal */
+#imageModal {
+  display: none; /* Initially hidden */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Background overlay */
+}
+
+#modalContent {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
+  margin-top: 5%;
+  align-items: center;
+  justify-content: center;
+  /*object-fit: contain; /* Maintain the image's aspect ratio */
+}
+
+#closeButton {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#closeButton:hover,
+#closeButton:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
