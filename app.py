@@ -600,14 +600,15 @@ def selected_binder(binder_id):
             print(error) 
 
         #sort the data by slot_id
+        #this is to ensure the sets are contiguous
         user_data.sort(key=lambda x: x["slot_id"])
 
         #disassemble the lists into sublists which are separated by set, merge sort by card_number for each sublist and the merge back together the entire list
-        #extract all sets in the binder by making a set of the set_name
+        #extract all unique sets in the binder by making a set of the set_name with a set comprehension
         unique_sets = {user["set_name"] for user in user_data}
         print(unique_sets)
 
-        #initialize dictionary with empty lists for each set in the binder
+        #initialize dictionary with empty lists for each set in the binder with a dictionary comprehension
         #makes a key value pair with the set and all its cards
         grouped_data = {set_name : [] for set_name in unique_sets}
 
@@ -617,23 +618,36 @@ def selected_binder(binder_id):
             set_name = slot["set_name"]
             if set_name in grouped_data:
                 grouped_data[set_name].append(slot)
-        
-        print(len(grouped_data))
 
         #Now the data is separated by the set so now I need to merge_sort each list by card_number and nothing if None
         #add back the list starting from the first list with the cards in order and return to the template
         merged_list = []
-        for val in grouped_data:
-            if val != None:
-                set = grouped_data[val]
-                set = merge_sort(set)
-                merged_list.append(set)
-            else:
-                set = grouped_data[val]
-                merged_list.append(set)
-        
-        print(len(merged_list[0]))
 
+        #wrap in try/except block so that None is only appended after all the sets
+        try:
+            for val in grouped_data:
+                if val != None:
+                    set = grouped_data[val]
+                    set = merge_sort(set)
+                    for card in set:
+                        merged_list.append(card)
+                else:
+                    pass
+        except:
+            pass
+        finally:    
+            for val in grouped_data:    
+                if val == None:
+                    set = grouped_data[val]
+                    for card in set:
+                        merged_list.append(card)
+        
+        for val in merged_list:
+            print(val["card_number"], val["slot_id"], val["set_name"])
+
+        print(type(user_data), type(merged_list))
+
+        user_data = merged_list
         
 
         return render_template("selected_binder.html", binder_id=binder_id, user_data=user_data)
