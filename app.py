@@ -605,9 +605,18 @@ def selected_binder(binder_id):
 
         #disassemble the lists into sublists which are separated by set, merge sort by card_number for each sublist and the merge back together the entire list
         #extract all unique sets in the binder by making a set of the set_name with a set comprehension
-        unique_sets = {user["set_name"] for user in user_data}
-        print(unique_sets)
+        
+        #initialize an empty list to append the sets in order
+        unique_sets = []
+        #create the set of the sets in user_data
+        seen = {user["set_name"] for user in user_data}
 
+        for slot in user_data:
+            if slot["set_name"] in seen and slot["set_name"] not in unique_sets:
+                unique_sets.append(slot["set_name"])
+            else:
+                pass
+        
         #initialize dictionary with empty lists for each set in the binder with a dictionary comprehension
         #makes a key value pair with the set and all its cards
         grouped_data = {set_name : [] for set_name in unique_sets}
@@ -641,12 +650,7 @@ def selected_binder(binder_id):
                     set = grouped_data[val]
                     for card in set:
                         merged_list.append(card)
-        
-        for val in merged_list:
-            print(val["card_number"], val["slot_id"], val["set_name"])
-
-        print(type(user_data), type(merged_list))
-
+    
         user_data = merged_list
         
 
