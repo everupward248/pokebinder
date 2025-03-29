@@ -50,7 +50,7 @@
                 <!--omitting the action attribute from the form tag will default the value to the current page-->
                 <form method="POST">
                     <input type="hidden" name="addCard"  value="{{ binder.slot_id }}">
-                    <button type="submit" class="btn btn-success">ADD CARD</button>
+                    <button type="submit" class="btn btn-success" onclick="alert('')">ADD CARD</button>
                 </form>
             </div>
         </div>
@@ -58,3 +58,4 @@
     {% endfor %}
 </div>
 {% endblock %}
+

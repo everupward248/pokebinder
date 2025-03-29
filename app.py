@@ -611,6 +611,17 @@ def selected_binder(binder_id):
             connection = connect()
             crsr = connection.cursor()
 
+            #retrieve the collection data from the db with the binder id and save as a python variable to pass to the template
+            collection_query = """SELECT * FROM collection WHERE binder_id = %s;"""
+            crsr.execute(collection_query, (binder_id, ))
+
+            table_cols = [desc[0] for desc in crsr.description] #extract column names
+            collection_row = crsr.fetchone()
+            #combine these rows and columns into a list of dictionaries python object
+            collection_data =[dict(zip(table_cols, collection_row))]
+            print(collection_data)
+
+
             #query the database to retrieve the user's collection data and then store that data in python variables to passed onto the jinja template
             crsr.execute("SELECT * FROM binders WHERE binder_id = %s", (binder_id, ))
             #description method takes the columns from the database, combine this with the rows with fetchall to make 
@@ -684,7 +695,7 @@ def selected_binder(binder_id):
         user_data = merged_list
         
 
-        return render_template("selected_binder.html", binder_id=binder_id, user_data=user_data)
+        return render_template("selected_binder.html", binder_id=binder_id, user_data=user_data, collection_data=collection_data)
 
 if __name__ == "__main__":
     #server will detect changes and update in real time so will not have to repeatedly rerun
