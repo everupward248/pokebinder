@@ -60,15 +60,53 @@
 <script>
     //crete the variables which are taken from the collection_data
     const collection = JSON.parse('{{ collection_data | tojson | safe }}');
-    
+
     function card_position(slot_id){
+        //slot_id properly passed
+        console.log(slot_id)
         
         //perform math on the collection data
-        console.log(collection.binder_columns)
-        let quotient = slot_id/collection.binder_columns;
-        const page = Math.ceil(quotient);
+        const cards_per_row = collection[0]["binder_columns"] 
+        const cards_per_page = collection[0]["binder_columns"] * collection[0]["binder_rows"]
+        console.log(cards_per_page)
+        let page_number = slot_id/cards_per_page
+        const page = Math.ceil(page_number);
+        let remainder, row, col, stmt;
 
-        alert(page);
+        //row and column
+        if (slot_id < cards_per_page) {
+            remainder = slot_id;
+        } else {
+            remainder = slot_id % cards_per_page;
+        }
+        console.log(remainder)
+        //if it is the last card on the page, the row and cols are the values in db
+        if (remainder == 0){
+            
+            row = collection[0]["binder_rows"];
+            col = collection[0]["binder_columns"];
+            stmt = `This card is on page: ${page}, row: ${row}, and column: ${col}`
+            alert(stmt);
+            return row, col;
+
+        } else{
+            //if it isn't the last slot, then it is the ceiling of the remainder over the cards per row
+            row_dec = remainder/cards_per_row;
+            row = Math.ceil(row_dec);
+        }
+            
+        //now for column
+        //if the remainder is less than the cards per row, then it is the remainder
+        if (remainder <= cards_per_row && remainder != 0){
+            //this is the first row
+            col = remainder;
+        } else{
+            //the column is going to be the remainder less the cards per row times the cards per row
+            col = remainder - (cards_per_row * (row-1));
+        }
+        
+        stmt = `This card is on page: ${page}, row: ${row}, and column: ${col}`
+        alert(stmt);
         } 
 </script>
 {% endblock %}
