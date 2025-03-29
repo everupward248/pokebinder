@@ -32,8 +32,8 @@
                 <p>Obtained: {{ binder['obtained']}}</p>
                 <!--omitting the action attribute from the form tag will default the value to the current page-->
                 <form method="POST">
-                    <input type="hidden" name="addCard"  value="{{ binder.binder_id }}">
-                    <button type="submit" class="btn btn-danger" onclick="return confirmDelete();">ADD CARD</button>
+                    <input type="hidden" name="addCard"  value="{{ binder.slot_id }}">
+                    <button type="submit" class="btn btn-danger">ADD CARD</button>
                 </form>
             </div>
         </div>
@@ -49,8 +49,8 @@
                 <p>Obtained: {{ binder['obtained']}}</p>
                 <!--omitting the action attribute from the form tag will default the value to the current page-->
                 <form method="POST">
-                    <input type="hidden" name="addCard"  value="{{ binder.binder_id }}">
-                    <button type="submit" class="btn btn-danger" onclick="return confirmDelete();">ADD CARD</button>
+                    <input type="hidden" name="addCard"  value="{{ binder.slot_id }}">
+                    <button type="submit" class="btn btn-success">ADD CARD</button>
                 </form>
             </div>
         </div>

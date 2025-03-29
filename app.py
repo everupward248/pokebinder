@@ -526,7 +526,6 @@ def selected_binder(binder_id):
             user_data = [tuple(d.values()) for d in user_data]
             user_data = [(val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[9],) for val in user_data]
             
-            #use mogrify to prepare the input for the UPDATE
             #connect to db
             try:
                 #connect to the db
@@ -566,7 +565,38 @@ def selected_binder(binder_id):
                                 
         #functionality for adding cards which will update the obtained status and tell the user which page and slot to add the card
         elif request.form.get("addCard"):
-            pass
+            #if the user uses the add card button, then update the obtained status and market value of the card in the db based off of the binder_id 
+            #store the user's form data as a variable which will passed into the query
+            slot_id = request.form.get("addCard")
+
+            try:    
+                connection = connect()
+                crsr = connection.cursor()
+
+                #execute the update to the obtained and market value on the binder_id and slot_id
+                stmt = """
+                UPDATE binders
+                SET  
+                    obtained = CASE 
+                        WHEN obtained = FALSE THEN TRUE  
+                        ELSE obtained  
+                    END
+                WHERE binder_id = %s AND slot_id = %s;
+                """
+
+                crsr.execute(stmt, (binder_id, slot_id,))
+              
+                #commit changes 
+                connection.commit()
+                #close cursor and the connection
+                crsr.close()
+                connection.close()
+            
+            except(Exception, psycopg2.DatabaseError) as error:
+                print(error)
+
+
+            
         else:
             return apology("Must input into the search box")
 
