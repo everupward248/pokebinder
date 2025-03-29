@@ -10,6 +10,7 @@ from psycopg2.extras import execute_batch, execute_values
 import os
 from dotenv import load_dotenv, dotenv_values
 from werkzeug.security import check_password_hash, generate_password_hash
+import math as m
 
 #load variables from .env file
 load_dotenv()
@@ -620,7 +621,6 @@ def selected_binder(binder_id):
             #combine these rows and columns into a list of dictionaries python object
             collection_data =[dict(zip(table_cols, collection_row))]
             print(collection_data)
-
 
             #query the database to retrieve the user's collection data and then store that data in python variables to passed onto the jinja template
             crsr.execute("SELECT * FROM binders WHERE binder_id = %s", (binder_id, ))
