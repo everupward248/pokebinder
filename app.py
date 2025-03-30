@@ -574,10 +574,30 @@ def selected_binder(binder_id):
                 connection = connect()
                 crsr = connection.cursor()
 
+                #from the slot_id, obtain the card_id of the card and then request its data 
+                crsr.execute("SELECT * FROM binders WHERE binder_id = %s AND slot_id = %s", (binder_id, slot_id,))
+                card_data = crsr.fetchone()
+
+                #use the card_id to fetch its price
+                card_data = fetch_specific_card(card_data[6])
+                print(card_data[0])
+
+                #create for loop to fetch the price of each card and return to jinja template to display under card
+                rarity = ["holofoil", "reverseHolofoil", "normal", "1stEditionHolofoil", "1stEditionNormal"]
+
+                 # ##check if these rarities are valid keys for the card
+                for j in range(len(rarity)):
+                    try:
+                        card_price = card_data[0]["tcgplayer"]["prices"][rarity[j]]["market"]
+                    except:
+                        pass
+                print(card_price)
+
                 #execute the update to the obtained and market value on the binder_id and slot_id
                 stmt = """
                 UPDATE binders
-                SET  
+                SET 
+                    market_value = %s,
                     obtained = CASE 
                         WHEN obtained = FALSE THEN TRUE  
                         ELSE obtained  
@@ -585,7 +605,7 @@ def selected_binder(binder_id):
                 WHERE binder_id = %s AND slot_id = %s;
                 """
 
-                crsr.execute(stmt, (binder_id, slot_id,))
+                crsr.execute(stmt, (card_price, binder_id, slot_id,))
               
                 #commit changes 
                 connection.commit()
@@ -620,7 +640,6 @@ def selected_binder(binder_id):
             collection_row = crsr.fetchone()
             #combine these rows and columns into a list of dictionaries python object
             collection_data =[dict(zip(table_cols, collection_row))]
-            print(collection_data)
 
             #query the database to retrieve the user's collection data and then store that data in python variables to passed onto the jinja template
             crsr.execute("SELECT * FROM binders WHERE binder_id = %s", (binder_id, ))

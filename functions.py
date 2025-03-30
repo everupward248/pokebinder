@@ -80,6 +80,24 @@ def fetch_card_sets():
         print(f"Error: {response.status_code}, {response.text}")
         return None
 
+#function to fetch a specific card
+def fetch_specific_card(card_id):
+    endpoint = "cards"
+    base_url = BASE_URL + endpoint
+    query_params = {
+        "q": f"id:{card_id}"
+    }
+    
+    response = requests.get(base_url, params=query_params, headers=headers)
+
+    if response.status_code == 200:
+        card_data = response.json().get("data", [])
+        return card_data
+    else:
+        print(f"Error: {response.status_code}, {response.text}")
+        return None
+
+
 #fetch a specific set
 def fetch_card(set):
     endpoint = "cards"
@@ -87,7 +105,7 @@ def fetch_card(set):
     query_params = {
         "q": f"set.id:{set}",
     }
-    response = requests.get(base_url, params=query_params)
+    response = requests.get(base_url, params=query_params, headers=headers)
 
     #check if request was successful
     if response.status_code == 200:
@@ -111,7 +129,7 @@ def fetch_cards(set, total):
             "q": f"set.id:{set}",
             "page": page
         }
-        response = requests.get(base_url, params=query_params)
+        response = requests.get(base_url, params=query_params, headers=headers)
 
         #check if request was successful
         if response.status_code == 200:
