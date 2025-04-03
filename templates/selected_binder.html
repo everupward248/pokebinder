@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 
+{% block style %}
+
+<style>
+.uniform-img {
+    width: 400px;  /* Adjust width based on screen size */
+    height: auto; /* Keeps aspect ratio */
+    max-width: 400px;
+    object-fit: cover;
+}
+</style>
+
+{% endblock %}
+
 {% block title%}- {{ binder_id }}{% endblock %}
 
 
@@ -21,7 +34,7 @@
 <div class="flex-container" style="display: flex; gap: 5x; flex-wrap: wrap; box-sizing: border-box;">
     {% for binder in user_data %}
         {% if binder.image_url == "static/cardBack.jpg" %}
-        <div class="flex-item">
+        <div class="flex-item uniform-img">
             <!--display the card image-->
             <div>
                 <img src="{{ url_for('static', filename='cardBack.jpg') }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px;">
@@ -38,7 +51,7 @@
             </div>
         </div>
         {% else %}
-        <div class="flex-item">
+        <div class="flex-item uniform-img">
             <!--display the card image-->
             <div>
                 <img src="{{ binder.image_url }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px;">
