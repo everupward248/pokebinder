@@ -28,27 +28,28 @@
 
 
 {% block main %}
-<div style="width: 90%; border: 15px; padding: 50px; margin: 20px; font-style: italic; color: #454545">
-    <h1>
-        Add a set and then track as you add cards
-    </h1>
-    <form method="POST">
-        <div class="form-row" style="width: 90%; border: 15px; padding: 20px; margin: 10px;">
-            <div class="form-group col-md-6">
-                <label for="inputName">Add set</label>
-                <input type="text" autocomplete="off" class="form-control" id="inputName" name="set" placeholder="Set">
-            </div>
+<div style="margin: 60px;">
+    <div style="width: 90%; margin: 40px; font-style: italic; color: #454545">
+        <h1>
+            Add a set and then track as you add cards
+        </h1>
+        <div style="left: 90px;  position: absolute;">
+            <form method="POST">
+                <div class="form-row" style="width: 90%; padding: 5px; margin: 10px;">
+                    <input type="text" autocomplete="off" class="form-control" id="inputName" name="set" placeholder="Set">
+                    <button type="submit" class="btn btn-primary" style="border: 15px; padding: 20px; margin: 10px;">Submit</button>
+                </div>
+            </form>
         </div>
-        <button type="submit" class="btn btn-primary" style="border: 15px; padding: 20px; margin: 40px;">Submit</button>
-    </form>
+    </div>
 </div>
-<div class="flex-container" style="display: flex; gap: 5x; flex-wrap: wrap; box-sizing: border-box; justify-content: center;">
+<div class="flex-container" style="display: flex; gap: 5x; flex-wrap: wrap; box-sizing: border-box; justify-content: center; margin: 40px; margin-top: 12%;">
     {% for binder in user_data %}
         {% if binder.image_url == "static/cardBack.jpg" %}
         <div class="flex-item uniform-img">
             <!--display the card image-->
-            <div>
-                <img src="{{ url_for('static', filename='cardBack.jpg') }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px; margin-left: auto; margin-right: auto;" onclick="openModal(this.src)">
+            <div style="padding:10px; margin: 10px;">
+                <img src="{{ url_for('static', filename='cardBack.jpg') }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; margin: 20px; margin-left: auto; margin-right: auto;">
             </div>
             <div style="text-align: center;">
                 <p>Name: {{ binder['card_name']}}</p>
@@ -64,8 +65,8 @@
         {% else %}
         <div class="flex-item uniform-img">
             <!--display the card image-->
-            <div>
-                <img src="{{ binder.image_url }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px; margin-left: auto; margin-right: auto;" onclick="openModal(this.src, this.width)">
+            <div style="padding:10px;  margin: 10px;">
+                <img src="{{ binder.image_url }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; margin: 20px; margin-left: auto; margin-right: auto;  cursor: zoom-in;" onclick="openModal(this.src, this.width)">
             </div>
             <div style="text-align: center;">
                 <p>Name: {{ binder['card_name']}}</p>
@@ -145,7 +146,7 @@
             document.getElementById('modalContent').src = src;
             // Enlargement using the passed width
             if (width) {
-                document.getElementById('modalContent').style.width = (width * 2) + 'px'; // 1.5x enlargement
+                document.getElementById('modalContent').style.width = (width * 1.50) + 'px'; // 1.5x enlargement
             } else {
                 document.getElementById('modalContent').style.width = '600px'; // fallback
             }
