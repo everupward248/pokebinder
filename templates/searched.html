@@ -1,18 +1,16 @@
 {% extends "base.html" %}
 
-{% block style %}
-
-{% endblock %}
-
-{% block title%}{{set_name}}{% endblock %}
+{% block title %} - {{ set_name }}{% endblock %}
 
 
 {% block main %}
     <p>There are {{ total }} cards in {{ set_name }}: </p>
-    <div style="display: flex; flex-wrap: wrap; gap: 5px; justify-content: center;">
+    <div class="flex-container" style="display: flex; gap: 5x; flex-wrap: wrap; box-sizing: border-box; justify-content: flex-start;">
         {% for card in all_cards %}
-        <div style="text-align: center; margin-bottom: 20px; margin-left: 2px; margin-right: 2px; box-sizing: border-box; border-radius: 8px; padding: 5px;">
-            <img src="{{ card.images.small }}" alt="{{ card.name }}" style="max-width: 100%; border-radius: 8px; width: 225px; height: 300; margin: 15px;" data-bs-toggle="tooltip" data-bs-placement="right" title="Market Value: {{ prices[loop.index0] }}" onclick="openModal(this.src, this.width)">
+        <div class="flex-item uniform-img">
+            <div style="margin-bottom: 20px; margin-left: 2px; margin-right: 2px; box-sizing: border-box; border-radius: 8px; padding: 5px;">
+                <img src="{{ card.images.small }}" alt="{{ card.name }}" style="max-width: 100%; border-radius: 8px; width: 225px; height: 300; margin: 15px;" data-bs-toggle="tooltip" data-bs-placement="right" title="Market Value: {{ prices[loop.index0] }}" onclick="openModal(this.src, this.width)">
+            </div>
         </div>
         {% endfor %}
     </div>
