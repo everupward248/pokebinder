@@ -9,6 +9,17 @@
     max-width: 400px;
     object-fit: cover;
 }
+
+
+.modal-content {
+    width: 800px;
+    max-width: 90%;
+    max-height: 90%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
+}
+
 </style>
 
 {% endblock %}
@@ -31,13 +42,13 @@
         <button type="submit" class="btn btn-primary" style="border: 15px; padding: 20px; margin: 40px;">Submit</button>
     </form>
 </div>
-<div class="flex-container" style="display: flex; gap: 5x; flex-wrap: wrap; box-sizing: border-box;">
+<div class="flex-container" style="display: flex; gap: 5x; flex-wrap: wrap; box-sizing: border-box; justify-content: center;">
     {% for binder in user_data %}
         {% if binder.image_url == "static/cardBack.jpg" %}
         <div class="flex-item uniform-img">
             <!--display the card image-->
             <div>
-                <img src="{{ url_for('static', filename='cardBack.jpg') }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px;">
+                <img src="{{ url_for('static', filename='cardBack.jpg') }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px; margin-left: auto; margin-right: auto;" onclick="openModal(this.src)">
             </div>
             <div style="text-align: center;">
                 <p>Name: {{ binder['card_name']}}</p>
@@ -54,7 +65,7 @@
         <div class="flex-item uniform-img">
             <!--display the card image-->
             <div>
-                <img src="{{ binder.image_url }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px;">
+                <img src="{{ binder.image_url }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px; margin-left: auto; margin-right: auto;" onclick="openModal(this.src, this.width)">
             </div>
             <div style="text-align: center;">
                 <p>Name: {{ binder['card_name']}}</p>
@@ -69,6 +80,11 @@
         </div>
         {% endif%}
     {% endfor %}
+</div>
+<!-- Modal that will show the enlarged image -->
+<div id="imageModal" onclick="closeModal()">
+    <span id="closeButton">&times;</span>
+    <img id="modalContent" src="" alt="Enlarged Image">
 </div>
 <script>
     //crete the variables which are taken from the collection_data
@@ -121,6 +137,29 @@
         stmt = `This card is on page: ${page}, row: ${row}, and column: ${col}`
         alert(stmt);
         } 
+
+
+        //modal functions
+        function openModal(src, width) {
+            // Set the source of the modal content to the clicked image
+            document.getElementById('modalContent').src = src;
+            //enlargement
+            document.getElementById('modalContent').style.width = (originalWidth * 1.5) + 'px'; // 1.5x enlargement
+            // Display the modal
+            document.getElementById('imageModal').style.display = "block";
+        }
+
+        function closeModal() {
+            // Hide the modal when clicked
+            document.getElementById('imageModal').style.display = "none";
+        }
+
+        // Optionally, close modal if clicked outside the image
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('imageModal')) {
+                closeModal();
+            }
+        }
 </script>
 {% endblock %}
 
