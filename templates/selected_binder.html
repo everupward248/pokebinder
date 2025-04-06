@@ -143,8 +143,12 @@
         function openModal(src, width) {
             // Set the source of the modal content to the clicked image
             document.getElementById('modalContent').src = src;
-            //enlargement
-            document.getElementById('modalContent').style.width = (originalWidth * 1.5) + 'px'; // 1.5x enlargement
+            // Enlargement using the passed width
+            if (width) {
+                document.getElementById('modalContent').style.width = (width * 2) + 'px'; // 1.5x enlargement
+            } else {
+                document.getElementById('modalContent').style.width = '600px'; // fallback
+            }
             // Display the modal
             document.getElementById('imageModal').style.display = "block";
         }

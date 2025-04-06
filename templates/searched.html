@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block style %}
+
+{% endblock %}
+
 {% block title%}{{set_name}}{% endblock %}
 
 
@@ -8,8 +12,7 @@
     <div style="display: flex; flex-wrap: wrap; gap: 5px; justify-content: center;">
         {% for card in all_cards %}
         <div style="text-align: center; margin-bottom: 20px; margin-left: 2px; margin-right: 2px; box-sizing: border-box; border-radius: 8px; padding: 5px;">
-            <img src="{{ card.images.small }}" alt="{{ card.name }}" style="max-width: 100%; border-radius: 8px;" class="pkmn-card" onclick="openModal(this.src)">
-            <p class="hide">Price: {{ prices[loop.index0] }}</p>
+            <img src="{{ card.images.small }}" alt="{{ card.name }}" style="max-width: 100%; border-radius: 8px; width: 225px; height: 300; margin: 15px;" data-bs-toggle="tooltip" data-bs-placement="right" title="Market Value: {{ prices[loop.index0] }}" onclick="openModal(this.src, this.width)">
         </div>
         {% endfor %}
     </div>
@@ -20,5 +23,42 @@
      </div>
  
      <!-- Link to the external JavaScript file -->
-     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+     <script >
+        //initialize tooltips
+        // Initialize Bootstrap tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltips.forEach(tooltip => {
+                new bootstrap.Tooltip(tooltip, {
+                    placement: 'right', // Tooltip appears above the image
+                    trigger: 'hover'  // Show on hover (default)
+                });
+            });
+        });
+        //modal functions
+        function openModal(src, width) {
+            // Set the source of the modal content to the clicked image
+            document.getElementById('modalContent').src = src;
+            // Enlargement using the passed width
+            if (width) {
+                document.getElementById('modalContent').style.width = (width * 2) + 'px'; // 1.5x enlargement
+            } else {
+                document.getElementById('modalContent').style.width = '600px'; // fallback
+            }
+            // Display the modal
+            document.getElementById('imageModal').style.display = "block";
+        }
+
+        function closeModal() {
+            // Hide the modal when clicked
+            document.getElementById('imageModal').style.display = "none";
+        }
+
+        // Optionally, close modal if clicked outside the image
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('imageModal')) {
+                closeModal();
+            }
+        }
+     </script>
 {% endblock %}
