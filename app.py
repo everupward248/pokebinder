@@ -107,14 +107,25 @@ def search():
                                   all_cards[card]["market_price"] = prices[card]
                              except:
                                   pass
-                        total_price += prices[card]
+                     
+                     for _ in range(len(all_cards)):
+                        if all_cards[_] != None:
+                            try:
+                                total_price += all_cards[_]["market_price"]
+                            except:
+                                pass
+                        else:
+                            pass
                      #sort all cards before returning
                      #code below sorts the cards but the prices are incorrect, to map prices before sorting
                      #all_cards = sorted(all_cards, key= lambda d : int(d["number"]))
 
                      #sort all the cards in the set before passing to the template
-                     all_cards = merge_sort_searched(all_cards)
-                      
+                     try:
+                        all_cards = merge_sort_searched(all_cards)
+                     except:
+                         pass
+             
                      return render_template("searched.html", set_name=master_set["name"], all_cards=all_cards, total=master_set["total"], prices=prices, total_price=total_price)
                  
                  else:
@@ -122,10 +133,9 @@ def search():
              return apology("Must search a valid set")
         else:
             #utilize fetch set function to make a request to the pokemon tcg api and return the set
-            card_sets = fetch_card_sets()
-            print(card_sets)
+            card_sets_searched = fetch_card_sets()
 
-            return render_template("search.html", card_sets=card_sets)
+            return render_template("search.html", card_sets_searched=card_sets_searched)
 
 
 #Register route so that users can create an account
@@ -726,9 +736,12 @@ def selected_binder(binder_id):
                         merged_list.append(card)
     
         user_data = merged_list
+
+        #make the sets for the dropdown selection
+        sets_for_search = fetch_card_sets()
         
 
-        return render_template("selected_binder.html", binder_id=binder_id, user_data=user_data, collection_data=collection_data)
+        return render_template("selected_binder.html", binder_id=binder_id, user_data=user_data, collection_data=collection_data, sets_for_search=sets_for_search)
 
 if __name__ == "__main__":
     #server will detect changes and update in real time so will not have to repeatedly rerun

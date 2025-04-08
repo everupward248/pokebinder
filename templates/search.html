@@ -15,7 +15,7 @@
         <div class="col-auto  col-md-4">
           <label class="sr-only">Search</label>
           <select autocomplete="off" class="form-control"  name="search">
-            {% for set in card_sets %}
+            {% for set in card_sets_searched %}
                 <option value="{{ set.name }}">{{ set.name }}</option>
             {% endfor %}
           </select>

@@ -36,7 +36,11 @@
         <div style="left: 90px;  position: absolute;">
             <form method="POST">
                 <div class="form-row" style="width: 90%; padding: 5px; margin: 10px;">
-                    <input type="text" autocomplete="off" class="form-control" id="inputName" name="set" placeholder="Set">
+                    <select autocomplete="off" class="form-control"  name="set">
+                        {% for set in sets_for_search %}
+                            <option value="{{ set.name }}">{{ set.name }}</option>
+                        {% endfor %}
+                    </select>
                     <button type="submit" class="btn btn-primary" style="border: 15px; padding: 20px; margin: 10px;">Submit</button>
                 </div>
             </form>
@@ -75,7 +79,7 @@
                 <!--omitting the action attribute from the form tag will default the value to the current page-->
                 <form method="POST">
                     <input type="hidden" name="addCard"  value="{{ binder.slot_id }}">
-                    <button type="submit" class="btn btn-success" onclick="card_position('{{ binder.slot_id }}')">ADD CARD</button>
+                    <button type="submit" class="btn btn-success" onclick="card_position('{{ binder.card_number }}')">ADD CARD</button>
                 </form>
             </div>
         </div>
