@@ -86,32 +86,46 @@ def search():
                     
                      #create request to fetch all cards in the set
                      all_cards = fetch_cards(master_set["id"], master_set["total"])
-
+                     #add a key to each dictionary to store the price
+                     [ item.update({"market_price": None}) for item in all_cards ]
+                     print(all_cards[0]["market_price"])
+                     
                      #create for loop to fetch the price of each card and return to jinja template to display under card
                      rarity = ["holofoil", "reverseHolofoil", "normal", "1stEditionHolofoil", "1stEditionNormal"]
                      
                      #create an empty list to store the prices of all the cards
                      prices = [0] * int(master_set["total"])
 
+
+                     total_price = 0
                      #for loop checks if rarity is present in the card's data and takes the first one and sets the price equal to that rarity's market value
                      for card in range(len(all_cards)):
                         # ##check if these rarities are valid keys for the card
                         for j in range(len(rarity)):
                              try:
                                   prices[card] = all_cards[card]["tcgplayer"]["prices"][rarity[j]]["market"]
+                                  all_cards[card]["market_price"] = prices[card]
                              except:
                                   pass
+                        total_price += prices[card]
                      #sort all cards before returning
                      #code below sorts the cards but the prices are incorrect, to map prices before sorting
                      #all_cards = sorted(all_cards, key= lambda d : int(d["number"]))
 
-                     return render_template("searched.html", set_name=master_set["name"], all_cards=all_cards, total=master_set["total"], prices=prices)
+                     #sort all the cards in the set before passing to the template
+                     all_cards = merge_sort_searched(all_cards)
+                      
+                     return render_template("searched.html", set_name=master_set["name"], all_cards=all_cards, total=master_set["total"], prices=prices, total_price=total_price)
                  
                  else:
                       pass
              return apology("Must search a valid set")
         else:
-            return render_template("search.html")
+            #utilize fetch set function to make a request to the pokemon tcg api and return the set
+            card_sets = fetch_card_sets()
+            print(card_sets)
+
+            return render_template("search.html", card_sets=card_sets)
 
 
 #Register route so that users can create an account

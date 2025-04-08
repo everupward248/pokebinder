@@ -257,46 +257,8 @@ def merge_sort_example(arr):
             j += 1 
             k += 1
 
-#rewrite the merge sort function to work specifically on the user_data data set
-def mergeSort(arr, key):
-
-    if len(arr) <= 1:
-        return arr
-
-    if len(arr) > 1:
-        left_arr = arr[:len(arr)//2]
-        right_arr = arr[len(arr)//2:]
-
-        #merge
-        i = 0 #left_arr index
-        j = 0 #right_arr index
-        k = 0 #merged array index
-
-        while i < len(left_arr) and j < len(right_arr):
-            if left_arr[i][key] < right_arr[j][key]:
-                arr[k] = left_arr[i]
-                i += 1
-            else:
-                arr[k] = right_arr[j]
-                j += 1
-            k += 1
-
-        while i < len(left_arr):
-            arr[k] = left_arr[i]
-            i += 1
-            k += 1
-        
-        while j < len(right_arr):
-            arr[k] = right_arr[j]
-            j += 1 
-            k += 1
-            
-        #recursive call
-        print("check")
-        return mergeSort(arr, key)
-######the above code is retained but was for learning purposes and not used in the app file
-
-
+######################
+#for sorting cards
 def merge_sort(arr):
     if len(arr) == 1:
         return arr
@@ -317,6 +279,38 @@ def merge(left, right):
     
     while i < len(left) and j < len(right):
         if int(left[i]["card_number"]) < int(right[j]["card_number"]):
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    
+    result.extend(left[i:])
+    result.extend(right[j:])
+
+    return result
+
+#searched page sort
+def merge_sort_searched(arr):
+    if len(arr) == 1:
+        return arr
+    
+    mid = len(arr)//2
+    left = arr[:mid]
+    right = arr[mid:]
+
+    sorted_left = merge_sort_searched(left)
+    sorted_right = merge_sort_searched(right)
+
+    return merge_s(sorted_left, sorted_right)
+    
+#try merge and merge_sort as 2 functions
+def merge_s(left, right):
+    result = []
+    i = j = 0
+    
+    while i < len(left) and j < len(right):
+        if int(left[i]["number"]) < int(right[j]["number"]):
             result.append(left[i])
             i += 1
         else:
