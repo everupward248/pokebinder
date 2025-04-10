@@ -10,11 +10,11 @@
 </div>
 <div class="flex-container" style="display: flex; flex-wrap: wrap; box-sizing: border-box;">
     {% for binder in user_data %}
-    <div class="flex-item" style="width: 33.33%">
+    <div class="flex-item" style="width: 33.33%; text-align: center;">
         <!--need to create the route in flask app which renders the selected_binder html-->
         <a href="{{ url_for('selected_binder', binder_id=binder['binder_id']) }}">
             <!--wrap image tag in a tag to make img clickable and a link-->
-            <img src="{{ binder.img_url }}" alt="{{ binder.name }}" style="width: 100%; height: auto; padding: 80px; margin: 40px;">
+            <img src="{{ binder.img_url }}" alt="{{ binder.name }}" style="width: 80%; height: auto; padding: 40px; margin: 20px;">
         </a>
         <div style="text-align: center;">
             <p>Name: {{ binder['name']}}</p>

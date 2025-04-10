@@ -1,11 +1,12 @@
 .navbar {
     font-size: 1.5rem; /* Adjust font size */
+    background: transparent;
   }
     
-    .navbar-nav .nav-link {
-    padding: 60px 120px; /* Adjust padding */
+  .navbar-custom {
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: background-color 0.3s ease;
   }
-
 
 
 .hide {
