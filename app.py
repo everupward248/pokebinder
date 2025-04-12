@@ -162,6 +162,10 @@ def register():
           if not request.form.get("confirm") == request.form.get("password"):
             return apology("passwords do not match", 400)
           
+          #add password validation
+          if is_valid_password(request.form.get("password")) == False:
+              return apology("password must have at least: 1 lower case, 1 upper case, 1 number, and 1 special character. Passwor length must be between 5 and 15 characters.", 400)
+          
           #store username
           username = request.form.get("username")
           #hash the password to store in the database

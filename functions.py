@@ -360,4 +360,30 @@ def connect():
         print(error)
    
 
+
+#################
+#password validator
+
+def is_valid_password(password):
+
+    if (len(password) > 5 and len(password) < 15):
+
+        lower_case = False
+        upper_case = False
+        number = False
+        special = False
+
+        for char in password:
+            if(char.isdigit()):
+                number = True
+            if(char.islower()):
+                lower_case = True
+            if(char.isupper()):
+                upper_case = True
+            if(not char.isalnum()):
+                special = True
+
+        return lower_case and upper_case and number and special
+    else:
+        return False
     

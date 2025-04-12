@@ -4,28 +4,71 @@
 
 {% block main%}
 
-<div class="content">
-  <!--add padding to move the form away from the navbar-->
-  <form action="/register" method="post">
-    <div class="form-row align-items-center">
-      <div class="col-auto">
-        <label class="sr-only" for="inlineFormInput">username</label>
-        <input autocomplete="off" type="text" class="form-control mb-2" id="inlineFormInput" name="username" placeholder="username">
+<div class="content" style="margin: 55px; margin-top: 40px;"> 
+
+  <h1>
+    Hey there, Collector!
+    A world of cards is waiting before you.
+    Create your account now to track, sort, and showcase your Pokémon card collection like a true Master. 
+  </h1>
+  <div style="margin-top: 35px;">
+    <form action="/register" method="post" onsubmit="return validatePassword()">
+      <div class="form-row align-items-center">
+        <div class="col-auto">
+          <label class="sr-only" for="inlineFormInput">username</label>
+          <input autocomplete="off" type="text" class="form-control mb-2" id="inlineFormInput" name="username" placeholder="username" required>
+        </div>
+        <div class="col-auto">
+          <label class="sr-only" for="passwordInput">password</label>
+          <input autocomplete="off" type="password" class="form-control mb-2" id="passwordInput" name="password" placeholder="password" required>
+        </div>
+        <div class="col-auto">
+          <label class="sr-only" for="confirmInput">confirm password</label>
+          <input autocomplete="off" type="password" class="form-control mb-2" id="confirmInput" name="confirm" placeholder="confirm password" required>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-2" for="inlineFormInputGroup" id="submit-button">Submit</button>
+        </div>
       </div>
-      <div class="col-auto">
-        <label class="sr-only" for="inlineFormInput">password</label>
-        <input autocomplete="off" type="password" class="form-control mb-2" id="inlineFormInput" name="password" placeholder="password">
-      </div>
-      <div class="col-auto">
-        <label class="sr-only" for="inlineFormInput">confirm password</label>
-        <input autocomplete="off" type="password" class="form-control mb-2" id="inlineFormInput" name="confirm" placeholder="confirm">
-      </div>
-      <div class="col-auto">
-        <button type="submit" class="btn btn-primary mb-2" for="inlineFormInputGroup" id="submit-button">Submit</button>
-      </div>
+    </form>
+    <div id="passwordHelp" style="margin-top: 20px;">
+      Password must contain: uppercase, lowercase, number, and special character. Password length is restricted to 5-15 characters.
     </div>
-  </form>
+  </div> 
 </div>
+
+
+<script>
+  function validatePassword() {
+    const password = document.getElementById('passwordInput').value;
+    const confirmPassword = document.getElementById('confirmInput').value;
+    
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      alert("Passwords don't match!");
+      return false;
+    }
+
+    // Check password length (e.g., 5-15 characters)
+    if (password.length < 5 || password.length > 15) {
+      alert("Password must be between 5 and 15 characters long!");
+      return false;
+    }
+    
+    // Check password complexity
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+    
+    if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
+      alert("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character!");
+      return false;
+    }
+    
+    return true;
+  }
+</script>
 
 
 {% endblock %}
