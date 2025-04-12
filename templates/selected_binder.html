@@ -28,68 +28,70 @@
 
 
 {% block main %}
-<div style="margin: 60px;">
-    <div style="width: 90%; margin: 40px; font-style: italic; color: #454545">
-        <h1>
-            Add a set and then track as you add cards
-        </h1>
-        <div style="left: 90px;  position: absolute;">
-            <form method="POST">
-                <div class="form-row" style="width: 90%; padding: 5px; margin: 10px;">
-                    <select autocomplete="off" class="form-control"  name="set">
-                        {% for set in sets_for_search %}
-                            <option value="{{ set.name }}">{{ set.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit" class="btn btn-primary" style="border: 15px; padding: 20px; margin: 10px;">Submit</button>
-                </div>
-            </form>
+<div class="content">
+    <div style="margin: 60px;">
+        <div style="width: 90%; margin: 40px; font-style: italic; color: #454545">
+            <h1>
+                Add a set and then track as you add cards
+            </h1>
+            <div style="left: 90px;  position: absolute;">
+                <form method="POST">
+                    <div class="form-row" style="width: 90%; padding: 5px; margin: 10px;">
+                        <select autocomplete="off" class="form-control"  name="set">
+                            {% for set in sets_for_search %}
+                                <option value="{{ set.name }}">{{ set.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-primary" style="border: 15px; padding: 20px; margin: 0px; margin-top: 8px;">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<div class="flex-container" style="display: flex; gap: 5x; flex-wrap: wrap; box-sizing: border-box; justify-content: center; margin: 40px; margin-top: 12%;">
-    {% for binder in user_data %}
-        {% if binder.image_url == "static/cardBack.jpg" %}
-        <div class="flex-item uniform-img">
-            <!--display the card image-->
-            <div style="padding:10px; margin: 10px;">
-                <img src="{{ url_for('static', filename='cardBack.jpg') }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; margin: 20px; margin-left: auto; margin-right: auto;">
+    <div class="flex-container" style="display: flex; gap: 5x; flex-wrap: wrap; box-sizing: border-box; justify-content: center; margin: 40px; margin-top: 12%;">
+        {% for binder in user_data %}
+            {% if binder.image_url == "static/cardBack.jpg" %}
+            <div class="flex-item uniform-img">
+                <!--display the card image-->
+                <div style="padding:10px; margin: 10px;">
+                    <img src="{{ url_for('static', filename='cardBack.jpg') }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; margin: 20px; margin-left: auto; margin-right: auto;">
+                </div>
+                <div style="text-align: center;">
+                    <p>Name: {{ binder['card_name']}}</p>
+                    <p>Market Value: {{ binder['market_value']}}</p>
+                    <p>Obtained: {{ binder['obtained']}}</p>
+                    <!--omitting the action attribute from the form tag will default the value to the current page-->
+                    <form method="POST">
+                        <input type="hidden" name="addCard"  value="{{ binder.slot_id }}">
+                        <button type="submit" class="btn btn-danger">ADD CARD</button>
+                    </form>
+                </div>
             </div>
-            <div style="text-align: center;">
-                <p>Name: {{ binder['card_name']}}</p>
-                <p>Market Value: {{ binder['market_value']}}</p>
-                <p>Obtained: {{ binder['obtained']}}</p>
-                <!--omitting the action attribute from the form tag will default the value to the current page-->
-                <form method="POST">
-                    <input type="hidden" name="addCard"  value="{{ binder.slot_id }}">
-                    <button type="submit" class="btn btn-danger">ADD CARD</button>
-                </form>
+            {% else %}
+            <div class="flex-item uniform-img">
+                <!--display the card image-->
+                <div style="padding:10px;  margin: 10px;">
+                    <img src="{{ binder.image_url }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; margin: 20px; margin-left: auto; margin-right: auto;  cursor: zoom-in;" onclick="openModal(this.src, this.width)">
+                </div>
+                <div style="text-align: center;">
+                    <p>Name: {{ binder['card_name']}}</p>
+                    <p>Market Value: {{ binder['market_value']}}</p>
+                    <p>Obtained: {{ binder['obtained']}}</p>
+                    <!--omitting the action attribute from the form tag will default the value to the current page-->
+                    <form method="POST">
+                        <input type="hidden" name="addCard"  value="{{ binder.slot_id }}">
+                        <button type="submit" class="btn btn-success" onclick="card_position('{{ binder.card_number }}')">ADD CARD</button>
+                    </form>
+                </div>
             </div>
-        </div>
-        {% else %}
-        <div class="flex-item uniform-img">
-            <!--display the card image-->
-            <div style="padding:10px;  margin: 10px;">
-                <img src="{{ binder.image_url }}" alt="{{ binder.card_name }}" style="width: 100%; height: auto; margin: 20px; margin-left: auto; margin-right: auto;  cursor: zoom-in;" onclick="openModal(this.src, this.width)">
-            </div>
-            <div style="text-align: center;">
-                <p>Name: {{ binder['card_name']}}</p>
-                <p>Market Value: {{ binder['market_value']}}</p>
-                <p>Obtained: {{ binder['obtained']}}</p>
-                <!--omitting the action attribute from the form tag will default the value to the current page-->
-                <form method="POST">
-                    <input type="hidden" name="addCard"  value="{{ binder.slot_id }}">
-                    <button type="submit" class="btn btn-success" onclick="card_position('{{ binder.card_number }}')">ADD CARD</button>
-                </form>
-            </div>
-        </div>
-        {% endif%}
-    {% endfor %}
-</div>
-<!-- Modal that will show the enlarged image -->
-<div id="imageModal" onclick="closeModal()">
-    <span id="closeButton">&times;</span>
-    <img id="modalContent" src="" alt="Enlarged Image">
+            {% endif%}
+        {% endfor %}
+    </div>
+    <!-- Modal that will show the enlarged image -->
+    <div id="imageModal" onclick="closeModal()">
+        <span id="closeButton">&times;</span>
+        <img id="modalContent" src="" alt="Enlarged Image">
+    </div>    
 </div>
 <script>
     //crete the variables which are taken from the collection_data

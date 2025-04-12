@@ -8,6 +8,7 @@
 
 
 {% block main %}
+<div class="content">
     <div style="margin: 20px;">
         <h1>There are {{ total }} cards in {{ set_name }} for a total market value of <span class="price">{{ total_price }}</span>(per tcgplayer): </h1>
     </div>
@@ -30,8 +31,8 @@
          <span id="closeButton">&times;</span>
          <img id="modalContent" src="" alt="Enlarged Image">
      </div>
- 
-     <!-- Link to the external JavaScript file -->
+</div>
+         <!-- Link to the external JavaScript file -->
      <script >
         //initialize tooltips
         // Initialize Bootstrap tooltips

@@ -3,28 +3,30 @@
 {% block title %}Search{% endblock %}
 
 {% block main %}
-<div style="width: 90%; padding: 10px; margin: 15px; margin-top:40px; margin-left: 40px;font-style: italic;">
-  <h1 style="text-align: left; color: #454545">
-      Please type a set from the Pokémon TCG into the search box. Ah, excellent! Just like choosing your first partner Pokémon, this is where your journey begins. Dive in, explore the vast world of cards, and discover the set that will shape your path as a true Pokémon Trainer!
-  </h1>
-</div>
-
-<div style="width: 90%; margin-left: 55px;">
-  <form action="/search" method="post">
-      <div class="form-row align-items-center">
-        <div class="col-auto  col-md-4">
-          <label class="sr-only">Search</label>
-          <select autocomplete="off" class="form-control"  name="search">
-            {% for set in card_sets_searched %}
-                <option value="{{ set.name }}">{{ set.name }}</option>
-            {% endfor %}
-          </select>
+<div class="content">
+  <div style="width: 90%; padding: 10px; margin: 15px; margin-top:40px; margin-left: 40px;font-style: italic;">
+    <h1 style="text-align: left; color: #454545">
+        Please type a set from the Pokémon TCG into the search box. Dive in, explore the vast world of cards, and discover the set that will shape your path as a true Pokémon Trainer!
+    </h1>
+  </div>
+  
+  <div style="width: 90%; margin-left: 55px;">
+    <form action="/search" method="post">
+        <div class="form-row align-items-center">
+          <div class="col-auto  col-md-4">
+            <label class="sr-only">Search</label>
+            <select autocomplete="off" class="form-control"  name="search">
+              {% for set in card_sets_searched %}
+                  <option value="{{ set.name }}">{{ set.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2"  id="submit-button">Submit</button>
+          </div>
         </div>
-        <div class="col-auto">
-          <button type="submit" class="btn btn-primary mb-2"  id="submit-button">Submit</button>
-        </div>
-      </div>
-    </form>
+      </form>
+  </div>
 </div>
 
 {% endblock %}

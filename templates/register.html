@@ -4,8 +4,9 @@
 
 {% block main%}
 
-<!--add padding to move the form away from the navbar-->
-<form action="/register" method="post">
+<div class="content">
+  <!--add padding to move the form away from the navbar-->
+  <form action="/register" method="post">
     <div class="form-row align-items-center">
       <div class="col-auto">
         <label class="sr-only" for="inlineFormInput">username</label>
@@ -24,6 +25,7 @@
       </div>
     </div>
   </form>
+</div>
 
 
 {% endblock %}

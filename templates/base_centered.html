@@ -14,6 +14,22 @@
     <!--link the css stylesheet-->
     <link href="/static/styles.css" rel="stylesheet">
 
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+
+    .content {
+      min-height: 100vh;
+      padding-bottom: 60px; /* Give space for footer */
+    }
+
+    footer {
+      height: 60px;
+    }
+    </style>
+
     <title>PokéCollectorTCG {% block title %}{% endblock %}</title>
   </head>
   <body>
@@ -51,8 +67,12 @@
         {% block main %}{% endblock %}
     </main>
 
-    <footer class="bg-white border-top shadow-sm text-center py-1 fixed-bottom">
-      Thanks for visiting! 
+    <footer class="bg-dark text-white text-center py-3">
+      <div>
+        <p>
+          Pokémon and its trademarks are ©1995-2025 Nintendo, Creatures, and GAMEFREAK. Related media appearing on this site are the property of The Pokémon Company International, Inc.
+        </p>
+      </div>
     </footer>
 
     <!-- Optional JavaScript -->

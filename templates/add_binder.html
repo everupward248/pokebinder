@@ -5,41 +5,42 @@
 {% endblock %}
 
 {% block main %}
+<div class="content">
+    <!--Header to greet the user when on the page-->
+    <div style="width: 90%; border: 15px; padding: 30px; margin: 20px; font-style: italic; color: #454545">
+        <h1>
+        Welcome, Trainer! A world of Pokémon adventure awaits you. Here, you can organize your very own collection, just like a true Pokémon Master. Use the form below to add or remove binders from your collection—just remember, you can have up to nine different binders at a time. Once you've created a binder, start adding Pokémon sets and enjoy the thrill of collecting! Now, go forth and begin your journey!
+        </h1>
+    </div>
 
-<!--Header to greet the user when on the page-->
-<div style="width: 90%; border: 15px; padding: 30px; margin: 20px; font-style: italic; color: #454545">
-    <h1>
-    Welcome, Trainer! A world of Pokémon adventure awaits you. Here, you can organize your very own collection, just like a true Pokémon Master. Use the form below to add or remove binders from your collection—just remember, you can have up to nine different binders at a time. Once you've created a binder, start adding Pokémon sets and enjoy the thrill of collecting! Now, go forth and begin your journey!
-    </h1>
+    <!--Add an add/delete button. If delete redirect back to the page after deleting the table from the database. If adding then redirect to form for user input-->
+
+    <!--Add a form where the user can add the data necessary for a binder to be created. Use the grid layout from "form row" on the bootstrap form page-->
+    <form action="/add_binder" method="post">
+        <div class="form-row" style="margin-left: 50px;">
+            <div class="form-group col-md-6">
+                <label for="inputName">Name</label>
+                <input type="text" autocomplete="off" class="form-control" id="inputName" name="name" placeholder="Name">
+            </div>
+        </div>
+        <!--Add options to add the rows, columns, and sheets to the binder. Use dropdown to constrain the potential options to be in line with limits built in the db-->
+        <div class="form-row" style="width: 90%; margin-left: 50px;">
+            <div class="form-group col-md-4">
+                <label for="inputSheets">Sheets</label>
+                <select id="inputSheets" class="form-control" name="sheets"></select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputRows">Rows</label>
+                <select id="inputRows" class="form-control" name="rows"></select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputCols">Columns</label>
+                <select id="inputCols" class="form-control" name="cols"></select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="padding: 10px; margin: 20px; margin-left: 55px;">Submit</button>
+    </form>
 </div>
-
-<!--Add an add/delete button. If delete redirect back to the page after deleting the table from the database. If adding then redirect to form for user input-->
-
-<!--Add a form where the user can add the data necessary for a binder to be created. Use the grid layout from "form row" on the bootstrap form page-->
-<form action="/add_binder" method="post">
-    <div class="form-row" style="margin-left: 50px;">
-        <div class="form-group col-md-6">
-            <label for="inputName">Name</label>
-            <input type="text" autocomplete="off" class="form-control" id="inputName" name="name" placeholder="Name">
-        </div>
-    </div>
-    <!--Add options to add the rows, columns, and sheets to the binder. Use dropdown to constrain the potential options to be in line with limits built in the db-->
-    <div class="form-row" style="width: 90%; margin-left: 50px;">
-        <div class="form-group col-md-4">
-            <label for="inputSheets">Sheets</label>
-            <select id="inputSheets" class="form-control" name="sheets"></select>
-        </div>
-        <div class="form-group col-md-4">
-            <label for="inputRows">Rows</label>
-            <select id="inputRows" class="form-control" name="rows"></select>
-        </div>
-        <div class="form-group col-md-4">
-            <label for="inputCols">Columns</label>
-            <select id="inputCols" class="form-control" name="cols"></select>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary" style="padding: 10px; margin: 20px; margin-left: 55px;">Submit</button>
-</form>
 
 <!--script used to dynamically generate the ranges needed for the dropdown menus-->>
 <script src="static/scripts.js"></script>

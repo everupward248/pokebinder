@@ -1,23 +1,47 @@
 {% extends "base.html" %}
 
+<style>
+    .wrong .fa-check {
+    display: none;
+    }
+    .good .fa-times {
+    display: none;
+    }
+    .valid-feedback,
+    .invalid-feedback {
+    margin-left: calc(2em + 0.25rem + 1.5rem);
+    }
+</style>
+
 {% block title %}
     Log In
 {% endblock %}
 
 {% block main %}
-    <!--add padding to move the form away from the navbar-->
-    <form action="/login" method="post">
-        <div class="form-row align-items-center">
-        <div class="col-auto">
-            <label class="sr-only" for="inlineFormInput">username</label>
-            <input autocomplete="off" type="text" class="form-control mb-2" id="inlineFormInput" name="username" placeholder="username">
-        </div>
-        <div class="col-auto">
-            <label class="sr-only" for="inlineFormInput">password</label>
-            <input autocomplete="off" type="password" class="form-control mb-2" id="inlineFormInput" name="password" placeholder="password">
-        </div>
-            <button type="submit" class="btn btn-primary mb-2" for="inlineFormInputGroup" id="submit-button">Submit</button>
-        </div>
-        </div>
-    </form>
+    <div style="margin: 55px; margin-top: 40px;" class="content">
+        <h1 style="text-align: left; color: #454545; margin-bottom: 30px;">
+            Ah, welcome, adventurer!
+            The world of  is brimming with rare finds, epic pulls, and endless possibilities for every Pokémon card collector. But before you dive into the hunt…
+
+            Tell me, who are you?
+            Log in now to continue your journey—track your collection and uncover legendary cards.
+            The path ahead is yours to shape, and we can't wait to see what you’ll discover in your Pokédex of cards!
+        </h1>
+        <form action="/login" method="post">
+            <div class="form-row align-items-center">
+            <div class="col-auto">
+                <label class="sr-only" for="inlineFormInput">username</label>
+                <input autocomplete="off" type="text" class="form-control mb-2" id="inlineFormInput" name="username" placeholder="username">
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="inlineFormInput">password</label>
+                <input autocomplete="off" type="password" class="form-control mb-2" id="inlineFormInput" name="password" placeholder="password">
+            </div>
+                <button type="submit" class="btn btn-primary mb-2" for="inlineFormInputGroup" id="submit-button">Submit</button>
+            </div>
+            </div>
+        </form>    
+    </div>  
+    
+    
 {% endblock %}

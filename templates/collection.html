@@ -3,30 +3,33 @@
 {% block title%}Collection{% endblock %}
 
 {% block main %}
-<div style="width: 90%; border: 15px; padding: 50px; margin: 20px; font-style: italic; color: #454545">
-    <h1>
-        Your collection is displayed below. Click on the pokéball to view its contents. Delete binders from colletion by using the delete button. 
-    </h1>
-</div>
-<div class="flex-container" style="display: flex; flex-wrap: wrap; box-sizing: border-box;">
-    {% for binder in user_data %}
-    <div class="flex-item" style="width: 33.33%; text-align: center;">
-        <!--need to create the route in flask app which renders the selected_binder html-->
-        <a href="{{ url_for('selected_binder', binder_id=binder['binder_id']) }}">
-            <!--wrap image tag in a tag to make img clickable and a link-->
-            <img src="{{ binder.img_url }}" alt="{{ binder.name }}" style="width: 80%; height: auto; padding: 40px; margin: 20px;">
-        </a>
-        <div style="text-align: center;">
-            <p>Name: {{ binder['name']}}</p>
-            <p>Totatl Market Value: {{ binder['total_mv']}}</p>
-            <form action="/collection" method="POST">
-                <input type="hidden" name="delete"  value="{{ binder.binder_id }}">
-                <button type="submit" class="btn btn-danger" onclick="return confirmDelete();">DELETE</button>
-            </form>
-        </div>
+<div class="content">
+    <div style="width: 90%; border: 15px; padding: 50px; margin: 20px; font-style: italic; color: #454545">
+        <h1>
+            Your collection is displayed below. Click on the pokéball to view its contents. Delete binders from colletion by using the delete button. 
+        </h1>
     </div>
-    {% endfor %}
+    <div class="flex-container" style="display: flex; flex-wrap: wrap; box-sizing: border-box;">
+        {% for binder in user_data %}
+        <div class="flex-item" style="width: 33.33%; text-align: center;">
+            <!--need to create the route in flask app which renders the selected_binder html-->
+            <a href="{{ url_for('selected_binder', binder_id=binder['binder_id']) }}">
+                <!--wrap image tag in a tag to make img clickable and a link-->
+                <img src="{{ binder.img_url }}" alt="{{ binder.name }}" style="width: 80%; height: auto; padding: 40px; margin: 20px;">
+            </a>
+            <div style="text-align: center;">
+                <p>Name: {{ binder['name']}}</p>
+                <p>Totatl Market Value: {{ binder['total_mv']}}</p>
+                <form action="/collection" method="POST">
+                    <input type="hidden" name="delete"  value="{{ binder.binder_id }}">
+                    <button type="submit" class="btn btn-danger" onclick="return confirmDelete();">DELETE</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
+
 
 <script>
     function confirmDelete() {
