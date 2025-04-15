@@ -6,7 +6,65 @@
 
 {% block main %}
 <div class="content">
-    Welcome to PokeCollector!
+    <div style="margin-top: 35px;">
+        <h1 style="text-align: center;">
+            Welcome to Pokébinderz!
+        </h1>
+    </div>
+    <h2 style="text-align: center;">
+        Use this site to collect master sets of the Pokemon TCG in binders
+    </h2>
+    <div  class="flex-container" style="font-size:30px; flex-direction: column; display: flex; flex-wrap: wrap; box-sizing: border-box; justify-content: center;">
+       <!--first instruction-->
+        <div>
+        <p style="margin: 20px;">
+            1. One you got your account, navigate to the "Add Binder" page to start adding to your collection
+        </p>
+       </div>
+       <div class="flex-item" style="display: flex; justify-content: center;">
+        <img src="{{ url_for('static', filename='index_photo_1.jpg') }}" style="width: 60%; height: auto; border: 3px solid black;">
+       </div>
+       <!--2nd instruction-->
+       <div>
+        <p style="margin: 20px;">
+            2. On the "Collection" page, view the binders you've created by clicking into the pokeballs
+        </p>
+       </div>
+       <div class="flex-item" style="display: flex; justify-content: center;">
+        <img src="{{ url_for('static', filename='index_photo_2.jpg') }}" style="width: 60%; height: auto; border: 3px solid black;">
+       </div>
+       <!--3rd instruction-->
+       <div>
+        <p style="margin: 20px;">
+            3. On the page of the selected binder, search a set and map it to the binder
+        </p>
+       </div>
+       <div class="flex-item" style="display: flex; justify-content: center;">
+        <img src="{{ url_for('static', filename='index_photo_3.jpg') }}" style="width: 60%; height: auto; border: 3px solid black;">
+       </div>
+        <!--4th instruction-->
+        <div>
+            <p style="margin: 20px;">
+                4. Now that you have a set mapped, add cards as you collect. You'll get you an alert for the card position once added.
+            </p>
+        </div>
+        <div class="flex-item" style="display: flex; justify-content: center;">
+            <img src="{{ url_for('static', filename='index_photo_4.jpg') }}" style="width: 60%; height: auto; border: 3px solid black;">
+        </div>
+        <p style="margin-top: 50px; font-size: 50px; display: flex; justify-content: center;">
+            Enjoy your collecting journey!
+        </p>
+        <div class="flex-item" style="display: flex; justify-content: center;">
+            <p>Click here to</p>&nbsp;
+            <a href="{{ url_for('register') }}"> create an account</a>
+        </div>
+
+    </div>
+    <div style="margin-top: 40px; display: flex; justify-content: center; font-size: 30px; color: red;">
+        This is an UNOFFICIAL site and IS NOT AN OFFICIAL APP WHICH IS ENDORSED OR AFIILIATED WITH The Pokémon Company International, Inc.
+        Pokémon and its trademarks are ©1995-2025 Nintendo, Creatures, and GAMEFREAK. Related media appearing on this site are the property of The Pokémon Company International, Inc.
+    </div>
+    
 </div>
     
 {% endblock %}
