@@ -1,4 +1,5 @@
 ##create functions to be recalled in the main program
+import psycopg2.pool
 from classes import Binder
 import requests
 import math
@@ -359,6 +360,19 @@ def connect():
     except(Exception, psycopg2.DatabaseError) as error:
         print(error)
    
+
+#Connection pool
+def connection_pool():
+    try:
+        connection_pool = None
+        #import params from the config file
+        params = config()
+        #unpack parameters from the ini file
+        connection_pool = psycopg2.pool.SimpleConnectionPool(1, 20, **params)
+        print("connection pool active")
+        return connection_pool
+    except(Exception, psycopg2.DatabaseError) as error:
+        print(error)
 
 
 #################

@@ -30,9 +30,6 @@ app = Flask(__name__)
 #get secret key from the environment variable
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
-##todo 
-#ADD JINJA FILTERS SO THAT JINJA TEMPLATES RECOGNIZE THE FUNCTIONS BEING USED FROM FUNCTIONS
-
 # Configure session to use filesystem (instead of signed cookies)
 #Flask-session is primarily designed to be used with permanent sessions
 #in a non-permanent session a cookie is stored in the browser and is deleted when the browser or tab is closed (no expiry). Also known as a session cookie or non-persistent cookie.
@@ -41,8 +38,12 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-##todo
-##configure the database 
+try:
+    #initialize the connection pool
+    conn_pool = connection_pool()
+except:
+    print("connection pool setup failed")
+    pass
 
 #prevents browser caching of responses, sensitive data returned from the server side will not be cached in the browser
 @app.after_request
