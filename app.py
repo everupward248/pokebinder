@@ -11,6 +11,8 @@ import os
 from dotenv import load_dotenv, dotenv_values
 from werkzeug.security import check_password_hash, generate_password_hash
 import math as m
+from datetime import timedelta, datetime
+
 
 #load variables from .env file
 load_dotenv()
@@ -33,7 +35,9 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 # Configure session to use filesystem (instead of signed cookies)
 #Flask-session is primarily designed to be used with permanent sessions
 #in a non-permanent session a cookie is stored in the browser and is deleted when the browser or tab is closed (no expiry). Also known as a session cookie or non-persistent cookie.
-app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_PERMANENT"] = True
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+
 #session information will be stored on disc
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -174,8 +178,10 @@ def register():
 
           #use try/except block to check the database if the username already exists and then add the new data
           try:
-            connection = connect()
-            crsr = connection.cursor()
+            #connection = connect()
+            reg_connection = conn_pool.getconn()
+
+            crsr = reg_connection.cursor()
 
             #check to see if username already exists
             crsr.execute("SELECT * FROM users WHERE username = %s", (username,))
@@ -192,7 +198,7 @@ def register():
                         )
 
             #commit changes before closing
-            connection.commit()
+            reg_connection.commit()
 
             #query the database for the username to store as session id
             print("user created")
@@ -201,7 +207,8 @@ def register():
            
             #close the cursor and the connection
             crsr.close()
-            connection.close()
+            conn_pool.putconn(reg_connection)
+            print("conn returned")
           except(Exception, psycopg2.DatabaseError) as error:
             print(error) 
 
@@ -241,9 +248,9 @@ def login():
         #execute the database connection with try blocks
         try:
             #create the connection to the database
-            connection = connect()
+            log_conn = conn_pool.getconn()
             #create a cursor to iterate through the data table
-            crsr = connection.cursor()
+            crsr = log_conn.cursor()
             #execute a query to fetch the username
             crsr.execute("SELECT * FROM users WHERE username = %s", (request.form.get("username"),))
             #fetch the user data
@@ -256,7 +263,7 @@ def login():
             
             #close the cursor and the connection
             crsr.close()
-            connection.close()
+            conn_pool.putconn(log_conn)
             
         except(Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -294,8 +301,8 @@ def add_binder():
         #execute the database connection with try/except block
         try:
             #connect to the db
-            connection = connect()
-            crsr = connection.cursor()
+            binder_conn = conn_pool.getconn()
+            crsr = binder_conn.cursor()
 
             #check binder counter in the users table, if it is equal to 9 then return apology
             crsr.execute("SELECT binder FROM users WHERE user_id = %s", (session_id,))
@@ -335,12 +342,12 @@ def add_binder():
                         )
 
             #commit changes before closing
-            connection.commit()
+            binder_conn.commit()
 
             #close the cursor and the connection
             crsr.close()
-            connection.close()
-            app.logger.info("connection closed")
+            conn_pool.putconn(binder_conn)
+            app.logger.info("connection returned")
 
         except(Exception, psycopg2.DatabaseError) as error:
             print(error) 
@@ -371,18 +378,18 @@ def collection():
         #the binder id is being transfered so now query the database to delete that from the db
         try:
             #connect to the db
-            connection = connect()
-            crsr = connection.cursor()
+            coll_conn = conn_pool.getconn()
+            crsr = coll_conn.cursor()
 
             #delete that binder_id from the collections table
             crsr.execute("DELETE FROM collection WHERE binder_id = %s", (binder_id,))
 
             #commit changes before closing
-            connection.commit()
+            coll_conn.commit()
 
             #close the cursor and the connection
             crsr.close()
-            connection.close()
+            conn_pool.putconn(coll_conn)
             #app.logger.info("connection closed", user_data)
 
         except(Exception, psycopg2.DatabaseError) as error:
@@ -393,8 +400,8 @@ def collection():
     else:
         try:
             #connect to the db
-            connection = connect()
-            crsr = connection.cursor()
+            coll_conn = conn_pool.getconn()
+            crsr = coll_conn.cursor()
 
             #query the database to retrieve the user's collection data and then store that data in python variables to passed onto the jinja template
             crsr.execute("SELECT * FROM collection WHERE user_id = %s", (session["user_id"], ))
@@ -408,8 +415,8 @@ def collection():
 
             #close the cursor and the connection
             crsr.close()
-            connection.close()
-            app.logger.info("connection closed")
+            conn_pool.putconn(coll_conn)
+            app.logger.info("connection returned")
 
         except(Exception, psycopg2.DatabaseError) as error:
             print(error) 
@@ -427,8 +434,8 @@ def selected_binder(binder_id):
     #initalizes the user data
     try:
         #connect to the db
-        connection = connect()
-        crsr = connection.cursor()
+        sel_conn = conn_pool.getconn()
+        crsr = sel_conn.cursor()
 
         #query the database to retrieve the user's collection data and then store that data in python variables to passed onto the jinja template
         crsr.execute("SELECT * FROM binders WHERE binder_id = %s", (binder_id, ))
@@ -442,7 +449,7 @@ def selected_binder(binder_id):
 
         #close the cursor and the connection
         crsr.close()
-        connection.close()
+        conn_pool.putconn(sel_conn)
         app.logger.info("connection closed")
 
     except(Exception, psycopg2.DatabaseError) as error:
@@ -559,8 +566,8 @@ def selected_binder(binder_id):
             #connect to db
             try:
                 #connect to the db
-                connection = connect()
-                crsr = connection.cursor()
+                map_conn = conn_pool.getconn()
+                crsr = map_conn.cursor()
 
                 #use update to update the values based on the query string produced by mogrify
                 # stmt = """
@@ -583,11 +590,11 @@ def selected_binder(binder_id):
                 execute_values(crsr, stmt, user_data)
 
                 #commit changes before closing
-                connection.commit()
+                map_conn.commit()
 
                 #close the cursor and the connection
                 crsr.close()
-                connection.close()
+                conn_pool.putconn(map_conn)
                 
 
             except(Exception, psycopg2.DatabaseError) as error:
@@ -600,8 +607,8 @@ def selected_binder(binder_id):
             slot_id = request.form.get("addCard")
 
             try:    
-                connection = connect()
-                crsr = connection.cursor()
+                fetch_conn = conn_pool.getconn()
+                crsr = fetch_conn.cursor()
 
                 #from the slot_id, obtain the card_id of the card and then request its data 
                 crsr.execute("SELECT * FROM binders WHERE binder_id = %s AND slot_id = %s", (binder_id, slot_id,))
@@ -637,10 +644,10 @@ def selected_binder(binder_id):
                 crsr.execute(stmt, (card_price, binder_id, slot_id,))
               
                 #commit changes 
-                connection.commit()
+                fetch_conn.commit()
                 #close cursor and the connection
                 crsr.close()
-                connection.close()
+                conn_pool.putconn(fetch_conn)
             
             except(Exception, psycopg2.DatabaseError) as error:
                 print(error)
@@ -658,8 +665,8 @@ def selected_binder(binder_id):
         #select all data from the binders table based on the binder_id then fetchall to store as a variable
         try:
             #connect to the db
-            connection = connect()
-            crsr = connection.cursor()
+            fetch_conn = conn_pool.getconn()
+            crsr = fetch_conn.cursor()
 
             #retrieve the collection data from the db with the binder id and save as a python variable to pass to the template
             collection_query = """SELECT * FROM collection WHERE binder_id = %s;"""
@@ -682,7 +689,7 @@ def selected_binder(binder_id):
 
             #close the cursor and the connection
             crsr.close()
-            connection.close()
+            conn_pool.putconn(fetch_conn)
             app.logger.info("connection closed")
 
         except(Exception, psycopg2.DatabaseError) as error:

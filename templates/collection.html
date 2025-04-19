@@ -19,7 +19,7 @@
             </a>
             <div style="text-align: center;">
                 <p>Name: {{ binder['name']}}</p>
-                <p>Totatl Market Value: {{ binder['total_mv']}}</p>
+                <p>Total Market Value: {{ binder['total_mv']}}</p>
                 <form action="/collection" method="POST">
                     <input type="hidden" name="delete"  value="{{ binder.binder_id }}">
                     <button type="submit" class="btn btn-danger" onclick="return confirmDelete();">DELETE</button>
