@@ -35,6 +35,19 @@
     function confirmDelete() {
         return confirm("Are you sure you want to delete this item?");
     }
+
+    // Set the time limit in milliseconds (e.g., 10000 ms = 10 seconds)
+    const timeLimit = 1000;
+
+    // Function to trigger the alert
+    function timeLimitExceeded() {
+    alert("Session will expire in 60 seconds. Please refresh page to prevent log out.");
+    }
+
+    // Start the timer when the page loads
+    window.onload = function() {
+    setTimeout(timeLimitExceeded, timeLimit);
+}
 </script>
 
 {% endblock %}

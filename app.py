@@ -36,7 +36,10 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 #Flask-session is primarily designed to be used with permanent sessions
 #in a non-permanent session a cookie is stored in the browser and is deleted when the browser or tab is closed (no expiry). Also known as a session cookie or non-persistent cookie.
 app.config["SESSION_PERMANENT"] = True
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10)
+#resets session time limit on each valid request
+app.config['SESSION_REFRESH_EACH_REQUEST'] = True
+
 
 #session information will be stored on disc
 app.config["SESSION_TYPE"] = "filesystem"
@@ -216,6 +219,7 @@ def register():
           #the crsr object calls the execute method to get the username of the account just registered and sets it to a tuple 'rows'
           #the first element of the tuple is the user id, set the session to the users id
           session["user_id"] = rows[0]
+          session.permanent = True
 
 
           #redirect user to the index
@@ -269,6 +273,7 @@ def login():
             print(error)
 
         session["user_id"] = rows[0]
+        session.permanent = True
 
         return redirect("/")
     else:
@@ -366,6 +371,9 @@ def collection():
     #there should be buttons underneath the image which allow sets to be added to binders and binders to be deleted
     #total market_value and name should be displayed underneath the binder
     #The binder images should be clickable links which lands on a page showing the contents of the binder
+    print(session["user_id"])
+    if 'user_id' not in session:
+        return apology("Session timed out. Please login again", 440)
     
     if request.method == "POST":
         #write function to delete the selected binder_id from the database
