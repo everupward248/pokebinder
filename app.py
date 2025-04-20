@@ -763,6 +763,6 @@ def selected_binder(binder_id):
 
         return render_template("selected_binder.html", binder_id=binder_id, user_data=user_data, collection_data=collection_data, sets_for_search=sets_for_search)
 
-if __name__ == "__main__":
-    #server will detect changes and update in real time so will not have to repeatedly rerun
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     #server will detect changes and update in real time so will not have to repeatedly rerun
+#     app.run(debug=True)
