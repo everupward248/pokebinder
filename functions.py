@@ -9,6 +9,7 @@ from config import config
 import psycopg2
 import os
 from dotenv import load_dotenv, dotenv_values
+import urllib.parse as urlparse
 
 #load the environment variables
 load_dotenv()
@@ -361,14 +362,21 @@ def connect():
         print(error)
    
 
+
 #Connection pool
 def connection_pool():
     try:
+
+        #user heroku database url
+        if 'DATABASE_URL' in os.environ:
+            urlparse.uses_netloc.append("postgres")
+            db_url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
         connection_pool = None
-        #import params from the config file
-        params = config()
-        #unpack parameters from the ini file
-        connection_pool = psycopg2.pool.SimpleConnectionPool(1, 20, **params)
+        # #import params from the config file
+        # params = config()
+        #use heroku config
+        connection_pool = psycopg2.pool.SimpleConnectionPool(1, 20, user=db_url.username, password=db_url.password, host=db_url.hostname, port=db_url.port, database=db_url.path[1:], sslmode='require')
         print("connection pool active")
         return connection_pool
     except(Exception, psycopg2.DatabaseError) as error:
