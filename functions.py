@@ -375,7 +375,7 @@ def connection_pool():
         # #import params from the config file
         # params = config()
         #use heroku config
-        connection_pool = psycopg2.pool.SimpleConnectionPool(1, 20, user=db_url.username, password=db_url.password, host=db_url.hostname, port=db_url.port, database=db_url.path[1:])
+        connection_pool = psycopg2.pool.SimpleConnectionPool(1, 20, user=db_url.username, password=db_url.password, host=db_url.hostname, port=db_url.port, database=db_url.path[1:], sslmode='require')
         print("connection pool active")
         return connection_pool
     except(Exception, psycopg2.DatabaseError) as error:
