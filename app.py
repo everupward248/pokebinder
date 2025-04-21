@@ -494,17 +494,17 @@ def selected_binder(binder_id):
             #create for loop to fetch the price of each card and return to jinja template to display under card
             rarity = ["holofoil", "reverseHolofoil", "normal", "1stEditionHolofoil", "1stEditionNormal"]
             
-            #create an empty list to store the prices of all the cards
-            prices = [0] * int(master_set["total"])
+            # #create an empty list to store the prices of all the cards
+            # prices = [0] * int(master_set["total"])
 
-            #for loop checks if rarity is present in the card's data and takes the first one and sets the price equal to that rarity's market value
-            for card in range(len(all_cards)):
-            # ##check if these rarities are valid keys for the card
-                for j in range(len(rarity)):
-                    try:
-                        prices[card] = all_cards[card]["tcgplayer"]["prices"][rarity[j]]["market"]
-                    except:
-                        pass
+            # #for loop checks if rarity is present in the card's data and takes the first one and sets the price equal to that rarity's market value
+            # for card in range(len(all_cards)):
+            # # ##check if these rarities are valid keys for the card
+            #     for j in range(len(rarity)):
+            #         try:
+            #             prices[card] = all_cards[card]["tcgplayer"]["prices"][rarity[j]]["market"]
+            #         except:
+            #             pass
             #check if the length of the set exceeds the space in the binder starting from the first null value
             i = 0
             count = 0
@@ -550,7 +550,7 @@ def selected_binder(binder_id):
                     user["card_name"] = all_cards[i]["name"]
                     user["card_number"] = all_cards[i]["number"]
                     user["card_id"] = all_cards[i]["id"]
-                    user["market_value"] = prices[i]
+                    #user["market_value"] = prices[i]
                     user["image_url"] = all_cards[i]["images"]["small"]
 
                     i += 1
