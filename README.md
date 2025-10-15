@@ -1,0 +1,23 @@
+# pokebinderz
+### Description:
+
+#### Overview:
+pokebinderz is a web application which allows users to track cards of the Pokemon TCG as they collect master sets in their physical binder. The web app was created using bootstrap and javascript for the frontend, and flask, postgreSQL/psycopg, and heroku for the backend. Users create accounts to which they can add binders that they can map entired sets of the Pokemon TCG to. There is also a search function which allows the users to search entire sets of the Pokemon TCG, proving images and prices.
+
+The data used in this application is obtained via the pokemon TCG API: <https://pokemontcg.io/>. This provides the data for all card details, images, and pricing information.
+
+As users collect cards, they utilize the collection route to update and reconcile to their binders. Upon update for a card, an alert is given to the user which tells them into which slot, row, column, and page to put the card based on its order in the set. As users add cards, the total value of their binder is updated.
+
+#### Frontend
+The frontend of the application was created using bootstrap and javascript. All the content was done using bootstrap with some customization directly in the html and css code. The design of the app's appearance was made to mimic the appearance of the pokeball resulting in a simplistic red and white theme. Each binder in a user's collection is represented by the image of a pokeball which the user can click into to access their collection. The javascript code was primarily used for the binder reconciliation alert when users add cards to their binders. This code determines the position of any card added. Javascript is also used in the client side password validation when users are creating their accounts. Users are prevented from submitted forms which do not conform to the password constraints.
+
+#### Backend
+The backend of the application was developed using Flask, a lightweight and flexible Python web framework, which manages incoming HTTP requests and routes them to the appropriate business logic. For persistent data storage, PostgreSQL was used as the relational database management system, providing robust support for complex queries, transactions, and data integrity. The application exposes multiple routes to handle various user interactions, including searching for cards, creating and deleting user accounts, logging in and out, managing binders (adding or deleting them), and adding cards to specific binders. Each route is designed with clear separation of concerns, validating user input, interacting efficiently with the database, and returning appropriate responses. This combination of Flask and PostgreSQL allows the backend to be both scalable and maintainable while providing a responsive API to support the dynamic functionality of the frontend.
+
+The database chosen for this project was postgreSQL and the library to handle the interfacing between the database and the python code is psycopg. The schema of the database consists of 3 tables for users, collections, and binders. There is a hierarchy that exists for the tables flowing down from the users. There are trigger functions in place to ensure integrity across tables when deletes or updates occur. For example, when a user adds a binder to thier collection, a trigger adds to the binders table creating slots for each card in that binder. Cascading is also used so that if a user deletes their account or deletes a binder, all related data is deleted.
+
+##### Connection Pooling
+The database connections were implemented using connection pooling, a technique that maintains a cache of active database connections which can be efficiently reused by multiple clients. Instead of establishing a new connection to the database each time a request is made—which is an expensive operation in terms of time and resources—clients borrow an existing connection from the pool and return it once the operation is complete. This approach significantly improves performance by reducing connection overhead and helps ensure system scalability under concurrent load. By maintaining a controlled number of open connections, connection pooling also prevents resource exhaustion and ensures that new client requests can be served promptly even when multiple users are interacting with the database simultaneously.
+
+#### Deployment
+A custom domain for the application was registered through Porkbun, a domain registrar that provides DNS management and SSL certificate support. The application itself was deployed on Heroku, a cloud-based Platform-as-a-Service (PaaS).
